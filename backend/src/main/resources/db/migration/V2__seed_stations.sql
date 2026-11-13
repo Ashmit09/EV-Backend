@@ -1,0 +1,45 @@
+-- Demonstration charging network across Indian cities.
+-- Coordinates are approximate public locations; the stations themselves are fictional.
+
+INSERT INTO charging_stations (name, address, city, latitude, longitude, opening_time, closing_time, open_24_hours, status, created_at, updated_at) VALUES
+('VoltX Koramangala Hub',     '80 Feet Road, 4th Block, Koramangala',          'Bengaluru', 12.934533, 77.626579, '00:00:00', '23:59:00', TRUE,  'ACTIVE',   CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+('VoltX Whitefield Tech Park', 'ITPL Main Road, Whitefield',                   'Bengaluru', 12.969800, 77.749968, '06:00:00', '23:00:00', FALSE, 'ACTIVE',   CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+('VoltX Bandra Kurla Complex', 'G Block, Bandra Kurla Complex, Bandra East',   'Mumbai',    19.066000, 72.868500, '00:00:00', '23:59:00', TRUE,  'ACTIVE',   CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+('VoltX Powai Lakeside',       'Hiranandani Gardens, Powai',                   'Mumbai',    19.118700, 72.907300, '07:00:00', '22:00:00', FALSE, 'ACTIVE',   CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+('VoltX Connaught Place',      'Block A, Inner Circle, Connaught Place',       'New Delhi', 28.632700, 77.219500, '00:00:00', '23:59:00', TRUE,  'ACTIVE',   CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+('VoltX Cyber Hub',            'DLF Cyber City, Phase 2',                      'Gurugram',  28.495000, 77.089500, '06:00:00', '23:30:00', FALSE, 'ACTIVE',   CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+('VoltX HITEC City',           'Madhapur Main Road, HITEC City',               'Hyderabad', 17.447400, 78.376200, '00:00:00', '23:59:00', TRUE,  'ACTIVE',   CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+('VoltX OMR Sholinganallur',   'Rajiv Gandhi Salai, Sholinganallur',           'Chennai',   12.901000, 80.227900, '06:00:00', '22:00:00', FALSE, 'ACTIVE',   CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+('VoltX Hinjewadi Phase 1',    'Rajiv Gandhi Infotech Park, Hinjewadi',        'Pune',      18.591300, 73.738900, '06:00:00', '23:00:00', FALSE, 'ACTIVE',   CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+('VoltX Salt Lake Sector V',   'EP Block, Sector V, Bidhannagar',              'Kolkata',   22.572600, 88.433300, '07:00:00', '21:00:00', FALSE, 'DISABLED', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));
+
+INSERT INTO charging_units (station_id, charger_code, connector_type, max_power_kw, price_per_kwh, pricing_plan, status, version, created_at, updated_at) VALUES
+((SELECT id FROM charging_stations WHERE name = 'VoltX Koramangala Hub'), 'VX-BLR-01-A', 'CCS2',    120.00, 22.00, 'PEAK_HOUR',   'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Koramangala Hub'), 'VX-BLR-01-B', 'CCS2',     60.00, 19.50, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Koramangala Hub'), 'VX-BLR-01-C', 'TYPE_2',   22.00, 14.00, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Koramangala Hub'), 'VX-BLR-01-D', 'TYPE_2',    7.40, 12.00, 'PROMOTIONAL', 'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Whitefield Tech Park'), 'VX-BLR-02-A', 'CCS2',     60.00, 19.00, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Whitefield Tech Park'), 'VX-BLR-02-B', 'CHADEMO',  50.00, 19.00, 'STANDARD',    'MAINTENANCE',    0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Whitefield Tech Park'), 'VX-BLR-02-C', 'GBT',      15.00, 15.00, 'PROMOTIONAL', 'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Bandra Kurla Complex'), 'VX-MUM-01-A', 'CCS2',    150.00, 24.00, 'PEAK_HOUR',   'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Bandra Kurla Complex'), 'VX-MUM-01-B', 'CCS2',     60.00, 21.00, 'PEAK_HOUR',   'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Bandra Kurla Complex'), 'VX-MUM-01-C', 'TYPE_2',   22.00, 15.00, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Powai Lakeside'), 'VX-MUM-02-A', 'CCS2',     60.00, 20.00, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Powai Lakeside'), 'VX-MUM-02-B', 'TYPE_2',    7.40, 13.00, 'PROMOTIONAL', 'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Connaught Place'), 'VX-DEL-01-A', 'CCS2',    120.00, 21.00, 'PEAK_HOUR',   'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Connaught Place'), 'VX-DEL-01-B', 'CHADEMO',  50.00, 19.00, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Connaught Place'), 'VX-DEL-01-C', 'GBT',      15.00, 14.50, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Connaught Place'), 'VX-DEL-01-D', 'TYPE_2',   22.00, 14.00, 'STANDARD',    'OUT_OF_SERVICE', 0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Cyber Hub'), 'VX-GGN-01-A', 'CCS2',     60.00, 19.50, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Cyber Hub'), 'VX-GGN-01-B', 'TYPE_2',   22.00, 13.50, 'PROMOTIONAL', 'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX HITEC City'), 'VX-HYD-01-A', 'CCS2',    120.00, 20.00, 'PEAK_HOUR',   'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX HITEC City'), 'VX-HYD-01-B', 'CCS2',     60.00, 18.50, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX HITEC City'), 'VX-HYD-01-C', 'TYPE_2',    7.40, 11.50, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX OMR Sholinganallur'), 'VX-CHN-01-A', 'CCS2',     60.00, 18.00, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX OMR Sholinganallur'), 'VX-CHN-01-B', 'CHADEMO',  50.00, 18.00, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX OMR Sholinganallur'), 'VX-CHN-01-C', 'TYPE_2',   22.00, 13.00, 'PROMOTIONAL', 'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Hinjewadi Phase 1'), 'VX-PUN-01-A', 'CCS2',     60.00, 18.50, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Hinjewadi Phase 1'), 'VX-PUN-01-B', 'TYPE_2',   22.00, 13.00, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Hinjewadi Phase 1'), 'VX-PUN-01-C', 'GBT',      15.00, 14.00, 'PROMOTIONAL', 'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Salt Lake Sector V'), 'VX-KOL-01-A', 'CCS2',     60.00, 18.00, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6)),
+((SELECT id FROM charging_stations WHERE name = 'VoltX Salt Lake Sector V'), 'VX-KOL-01-B', 'TYPE_2',   22.00, 12.50, 'STANDARD',    'AVAILABLE',      0, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));

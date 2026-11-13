@@ -1,0 +1,62 @@
+package com.voltx.security;
+
+import com.voltx.entity.User;
+import com.voltx.enums.Role;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
+
+/** Adapter that lets Spring Security work with a VoltX {@link User} without exposing the entity. */
+public class VoltXUserDetails implements UserDetails {
+
+    private final Long id;
+    private final String email;
+    private final String fullName;
+    private final String passwordHash;
+    private final Role role;
+    private final boolean enabled;
+
+    public VoltXUserDetails(User user) {
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.fullName = user.getFullName();
+        this.passwordHash = user.getPasswordHash();
+        this.role = user.getRole();
+        this.enabled = user.isEnabled();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.authority()));
+    }
+
+    @Override
+    public String getPassword() {
+        return passwordHash;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+}

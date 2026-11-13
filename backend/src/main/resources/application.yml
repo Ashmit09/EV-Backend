@@ -1,0 +1,55 @@
+server:
+  port: ${PORT:8085}
+
+spring:
+  application:
+    name: voltx
+  datasource:
+    # Credentials come from environment variables; the defaults suit a local
+    # Homebrew/MySQL installer setup (root user, no password). Set the password with
+    # the SPRING_DATASOURCE_PASSWORD environment variable - it is never stored in this file.
+    url: ${DB_URL:jdbc:mysql://localhost:3306/voltx?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none          # schema is owned by Flyway migrations
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 25
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+
+voltx:
+  timezone: Asia/Kolkata
+  jwt:
+    # Set VOLTX_JWT_SECRET (at least 32 characters) in any shared environment.
+    # When empty, a random key is generated on start-up (tokens reset on restart).
+    secret: ${VOLTX_JWT_SECRET:}
+    expiration-minutes: ${VOLTX_JWT_EXPIRATION_MINUTES:720}
+  cors:
+    allowed-origins: ${VOLTX_CORS_ORIGINS:http://localhost:5180,http://127.0.0.1:5180}
+  simulation:
+    # 60 => one real second equals one simulated minute of charging.
+    time-multiplier: ${VOLTX_SIM_MULTIPLIER:60}
+  booking:
+    min-duration-minutes: 15
+    max-duration-minutes: 240
+    max-days-in-advance: 14
+    start-window-minutes: 15
+    max-active-reservations: 3
+  billing:
+    gst-rate: 0.18
+  seed:
+    enabled: ${VOLTX_SEED_DEMO_DATA:true}
